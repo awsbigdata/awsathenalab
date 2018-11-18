@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+  <head>
+    {% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='align.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+    <title>{% block title %}{% endblock %} - My Webpage</title>
+    {% endblock %}
+  </head>
+{% block body %}
+{% if session['logged_in'] %}
+
+  <div id="container">
+    <div id="header" >
+        <div class=metanav>
+  {% if not session.logged_in %}
+    <a href="{{ url_for('login') }}">log in</a>
+  {% else %}
+    <a href="{{ url_for('logout') }}">log out</a>
+  {% endif %}
+  </div>
+    </div>
+    <div id="sidebar-left">
+        <div class="sidenav">
+            <a id='tablecreate' href="/exercise/1">1.Table Creation</a>
+            <a id='select' href="/exercise/2">2.Select Query</a>
+            <a id='iam' href="/exercise/3">3.IAM access</a>
+            <a id='sql' href="/exercise/4">4.SQL use cases</a>
+        </div>
+    </div>
+    <div id="main" >{% block content %}{% endblock %}</div>
+    <div id="footer">
+      {% block footer %}Conditions of Use & SalePrivacy NoticeInterest-Based Ads© 1996-2018, Amazon.com, Inc. or its affiliates
+      {% endblock %}
+    </div>
+
+{% else %}
+      <p>You're not logged in!</p>
+      <meta http-equiv="Refresh" content="1; url=/">
+      {% endif %}
+{% endblock %}
+
+</html>
