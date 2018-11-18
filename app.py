@@ -28,7 +28,8 @@ def do_admin_login():
     else:
         error = 'Invalid username/password'
         flash('wrong password!')
-    return render_template('login.html',error=error)
+        return render_template('login.html',error=error)
+    return home()
 
 @app.route('/runquery/<number>',methods=['POST'])
 def run_query(number):
