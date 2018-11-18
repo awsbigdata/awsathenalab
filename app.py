@@ -22,11 +22,13 @@ def home():
 
 @app.route('/login', methods=['POST'])
 def do_admin_login():
+    error = None
     if request.form['password'] == 'password' and request.form['username'] == 'admin':
         session['logged_in'] = True
     else:
+        error = 'Invalid username/password'
         flash('wrong password!')
-    return home()
+    return render_template('login.html',error=error)
 
 @app.route('/runquery/<number>',methods=['POST'])
 def run_query(number):

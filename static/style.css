@@ -20,6 +20,10 @@ padding: 20px;
 border-radius: 5px
 }
 
+.error{
+ color:red
+}
+
 .app-title {
 text-align: center;
 color: #777;
