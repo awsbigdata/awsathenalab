@@ -6,9 +6,11 @@
 <script>
 $(document).ready(function(){
  $(document).ajaxStart(function(){
+        $("#overlay").css("display","block")
         $("#wait").css("display", "block");
     });
     $(document).ajaxComplete(function(){
+        $("#overlay").css("display","none")
         $("#wait").css("display", "none");
     });
 });
@@ -33,7 +35,9 @@ function execute(id){
 </style>
 {% endblock %}
 {% block content %}
-
+<div id="overlay" onclick="off()">
+  <div id="text"></div>
+</div>
 <div id="wait" style="display:none;width:69px;height:89px;border:1px solid black;position:absolute;top:50%;left:50%;padding:2px;">
     <img src="{{ url_for('static', filename='demo_wait.gif') }}" width="64" height="64" /><br>Loading..</div>
 
