@@ -23,7 +23,7 @@ def home():
 @app.route('/login', methods=['POST'])
 def do_admin_login():
     error = None
-    if request.form['password'] == 'password' and request.form['username'] == 'admin':
+    if request.form['password'] == 'athenalab#2018' and request.form['username'] == 'admin':
         session['logged_in'] = True
     else:
         error = 'Invalid username/password'

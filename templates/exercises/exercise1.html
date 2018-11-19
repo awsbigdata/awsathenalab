@@ -17,6 +17,10 @@ $(document).ready(function(){
 
 function execute(id){
     $.ajax({url: "/runquery/"+id, type: 'POST', success: function(result){
+      var obj=$.parseJSON(result)
+      if(obj['state']=='FAILED'){
+      $('#'+id).css("background-color", "red");
+      }
         $('#'+id).html(result);
  }});
 
