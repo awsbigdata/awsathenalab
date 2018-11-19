@@ -2,11 +2,12 @@ import boto3
 import time
 
 client = boto3.client('athena',region_name='us-east-1')
+dbname = "athenalabdb"
 
 def submitQuery(query):
     #query="""SELECT * FROM lab_exe1"""
     print(query)
-    res = client.start_query_execution(QueryString=query, QueryExecutionContext={'Database': 'hive_glue'},
+    res = client.start_query_execution(QueryString=query, QueryExecutionContext={'Database': dbname},
                                       ResultConfiguration={'OutputLocation':'s3://testeastreg/output'})
     return res
 
@@ -30,7 +31,7 @@ def waitForQueryToComplete(queryid):
     return response
 
 
-def executeQuery():
-    res=submitQuery("SELECT * FROM lab_exe1")
+def executeQuery(query):
+    res=submitQuery(query)
     result=waitForQueryToComplete(res['QueryExecutionId'])
     return result

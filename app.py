@@ -1,7 +1,7 @@
 from flask import Flask, flash,jsonify, redirect, render_template, request, session, abort,url_for
 import os
 import json
-from com.awssupport.athenalab import athenaQueryExecutor
+from com.awssupport.athenalab import athenaQueryExecutor,exerciesQuery
 from datetime import date, datetime
 
 app = Flask(__name__)
@@ -34,8 +34,15 @@ def do_admin_login():
 @app.route('/runquery/<number>',methods=['POST'])
 def run_query(number):
     print(number)
-    out=athenaQueryExecutor.executeQuery()
-    return json.dumps({'status':'OK','result':'success','message':out},default=json_serial);
+    query=exerciesQuery.getQuery(number)
+    out=athenaQueryExecutor.executeQuery(query)
+    print(out)
+    if out['QueryExecution']['Status']['State']=='SUCCEEDED':
+        return json.dumps({'status': 'OK', 'state': out['QueryExecution']['Status']['State'],
+                           'message':'', 'result': '', 'qid': ''},
+                          default=json_serial);
+
+    return json.dumps({'status':'OK','state':out['QueryExecution']['Status']['State'],'message':out['QueryExecution']['Status']['StateChangeReason'],'result':'','qid':''},default=json_serial);
 
 @app.route("/logout")
 def logout():
