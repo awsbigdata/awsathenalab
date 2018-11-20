@@ -1,17 +1,11 @@
 #!/bin/bash
 
-set -x -e
+set -x -e 
 
-sudo su - ec2-user
-
-sudo yum update -y
-
-sudo yum install git -y
-
-git clone https://github.com/awsbigdata/awsathenalab.git
+cd /home/ec2-user/awsathenalab
 
 sudo pip install -r requirements.txt 
 
-screen -S pythonserver -L -Logfile pythonserver.log -d -m sudo python app.py
+screen -S pythonserver -L -d -m  sudo python app.py
 
 echo "server started"
