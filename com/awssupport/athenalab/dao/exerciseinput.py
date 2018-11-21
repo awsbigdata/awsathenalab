@@ -1,10 +1,10 @@
 def ex11():
     ex11table=[]
-    ex11table.append({"id":"q11","desc":"Hive Schema mismatch error","run":"","result":""})
-    ex11table.append({"id":"q12","desc":"How do I resolve the RegexSerDe error \"Number of matching groups doesn't match the number of columns\" in Amazon Athena?","run":"","result":""})
-    ex11table.append({"id":"q13","desc":"When I query a table in Amazon Athena, the TIMESTAMP result is empty","run":"","result":""})
-    ex11table.append({"id":"q14","desc":"When I try to read JSON data in Amazon Athena, I receive NULL or incorrect data errors. How can I resolve this?","run":"","result":""})
-    ex11table.append({"id":"q15","desc":"I created a table in Amazon Athena with defined partitions, but when I query the table, zero records are returned","run":"","result":""})
+    ex11table.append({"id":"q11","groupid":"q1","desc":"Hive Schema mismatch error","run":"","result":"","comments":""})
+    ex11table.append({"id":"q12","groupid":"q1","desc":"How do I resolve the RegexSerDe error \"Number of matching groups doesn't match the number of columns\" in Amazon Athena?","run":"","result":"","comments":""})
+    ex11table.append({"id":"q13","groupid":"q1","desc":"When I query a table in Amazon Athena, the TIMESTAMP result is empty","run":"","result":"","comments":""})
+    ex11table.append({"id":"q14","groupid":"q1","desc":"When I try to read JSON data in Amazon Athena, I receive NULL or incorrect data errors. How can I resolve this?","run":"","result":"","comments":""})
+    ex11table.append({"id":"q15","groupid":"q1","desc":"I created a table in Amazon Athena with defined partitions, but when I query the table, zero records are returned","run":"","result":"","comments":""})
     return ex11table
 
 def ex12():
@@ -21,11 +21,11 @@ def ex15():
 
 def getQuery(argument):
     switcher = {
-        'q11': ex11,
-        'q12': ex12,
-        'q13': ex13,
-        'q14': ex14,
-        'q15': ex15,
+        'q1': ex11,
+        'q2': ex12,
+        'q3': ex13,
+        'q4': ex14,
+        'q5': ex15,
 
     }
     # Get the function from switcher dictionary
@@ -33,4 +33,4 @@ def getQuery(argument):
     # Execute the function
     return func()
 
-print(getQuery('q11'))
+#print(getQuery('q11'))

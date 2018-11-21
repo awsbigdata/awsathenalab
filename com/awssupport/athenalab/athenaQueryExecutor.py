@@ -48,4 +48,4 @@ def processRows(row,columninfo):
     return ','.join(str(v['VarCharValue'])  if 'VarCharValue' in v else str('') for v in row)
 
 
-print(processresultset('a02336c8-5f26-4709-90ab-fee4155a6d53'))
+#print(processresultset('a02336c8-5f26-4709-90ab-fee4155a6d53'))

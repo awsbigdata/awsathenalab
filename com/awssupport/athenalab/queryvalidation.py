@@ -39,6 +39,8 @@ def ex15(number):
         if len(out) <2:
             rs['status'] = 'FAILED'
             rs['message'] = 'Zero Rows returned'
+        else:
+            rs['message']=out[1]
         return rs
     else:
         return rs
@@ -70,4 +72,6 @@ def query_validation(argument):
 
 
 
-print(query_validation('q11'))
+
+
+    #print(query_validation('q11'))

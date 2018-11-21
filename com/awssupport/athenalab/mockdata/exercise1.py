@@ -9,9 +9,12 @@ class exercise1():
     s3 = boto3.client('s3', region_name='us-east-1')
     athena = boto3.client('athena', region_name='us-east-1')
     dbname="athenalabdb"
-    s3bucket="athenaiad"
+    s3bucket="athenalab-{}".format(str(int(time.time())))
     prefix='athenalab/exer1/'
     crawlername='Athena_lab11'
+
+    def createBucket(self):
+        self.s3.create_bucket(Bucket=self.s3bucket)
 
     def json_serial(obj):
         """JSON serializer for objects not serializable by default json code"""
@@ -46,8 +49,9 @@ class exercise1():
 
     def deletes3(self):
         s3 = boto3.resource('s3')
-        bucket = s3.Bucket(self.s3bucket)
-        bucket.objects.filter(Prefix=self.prefix).delete()
+        if s3.Bucket(self.s3bucket) in s3.buckets.all():
+         bucket = s3.Bucket(self.s3bucket)
+         bucket.objects.filter(Prefix=self.prefix).delete()
 
 
     def deleteCrawler(self):
@@ -132,11 +136,13 @@ class exercise1():
                                                 ResultConfiguration={
                                                     'OutputLocation': 's3://{}/stage/'.format(self.s3bucket)})
 
-e= exercise1()
-e.cleanup()
-e.createdatabase()
-e.createEx11()
-e.createEx12()
-e.createEx13()
-e.createEx14()
-e.createEx15()
+    def exerciseMockData(self):
+        self.createEx11()
+        self.createEx12()
+        self.createEx13()
+        self.createEx14()
+        self.createEx15()
+        out={}
+        out['S3bucket']=self.s3bucket
+        out['database']=self.dbname
+        return out

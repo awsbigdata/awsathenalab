@@ -99,6 +99,6 @@ venv.bak/
 
 # mkdocs documentation
 /site
-
+dbathena/
 # mypy
 .mypy_cache/

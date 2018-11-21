@@ -28,4 +28,4 @@ def getQuery(argument):
     # Execute the function
     return func()
 
-print(getQuery('q11'))
+#print(getQuery('q11'))

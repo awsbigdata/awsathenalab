@@ -121,3 +121,11 @@ tr:nth-child(even) {
 .th4{
  width:45%
 }
+
+.FAILED{
+background-color:red
+}
+
+.SUCCEEDED{
+background-color:green
+}
