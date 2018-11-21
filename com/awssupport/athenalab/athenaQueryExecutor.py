@@ -35,3 +35,17 @@ def executeQuery(query):
     res=submitQuery(query)
     result=waitForQueryToComplete(res['QueryExecutionId'])
     return result
+
+def processresultset(queryid):
+    res=client.get_query_results(QueryExecutionId=queryid,MaxResults=100)
+    rows=[]
+    for row in res['ResultSet']['Rows']:
+        rows.append(processRows(row['Data'],res['ResultSet']['ResultSetMetadata']['ColumnInfo']))
+    return rows;
+
+
+def processRows(row,columninfo):
+    return ','.join(str(v['VarCharValue'])  if 'VarCharValue' in v else str('') for v in row)
+
+
+print(processresultset('a02336c8-5f26-4709-90ab-fee4155a6d53'))

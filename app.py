@@ -1,8 +1,12 @@
-from flask import Flask, flash,jsonify, redirect, render_template, request, session, abort,url_for
+from flask import Flask, flash, render_template, request, session, abort,url_for
 import os
 import json
-from com.awssupport.athenalab import athenaQueryExecutor,exerciesQuery
+from com.awssupport.athenalab import queryvalidation
 from datetime import date, datetime
+
+from com.awssupport.athenalab.dao import exerciseinput
+
+
 
 app = Flask(__name__)
 
@@ -17,11 +21,13 @@ def home():
     if not session.get('logged_in'):
         return render_template('login.html')
     else:
-        return render_template('exercises/exercise1.html')
+        print(exerciseinput.getQuery('q11'))
+        return render_template('exercises/exercise1.html',options=exerciseinput.getQuery('q11'))
 
 
 @app.route('/login', methods=['POST'])
 def do_admin_login():
+    """ password validation"""
     error = None
     if request.form['password'] == 'athenalab#2018' and request.form['username'] == 'admin':
         session['logged_in'] = True
@@ -33,16 +39,9 @@ def do_admin_login():
 
 @app.route('/runquery/<number>',methods=['POST'])
 def run_query(number):
+    """ Ajax call for execution"""
     print(number)
-    query=exerciesQuery.getQuery(number)
-    out=athenaQueryExecutor.executeQuery(query)
-    print(out)
-    if out['QueryExecution']['Status']['State']=='SUCCEEDED':
-        return json.dumps({'status': 'OK', 'state': out['QueryExecution']['Status']['State'],
-                           'message':'', 'result': '', 'qid': ''},
-                          default=json_serial);
-
-    return json.dumps({'status':'OK','state':out['QueryExecution']['Status']['State'],'message':out['QueryExecution']['Status']['StateChangeReason'],'result':'','qid':''},default=json_serial);
+    return json.dumps(queryvalidation.query_validation(number))
 
 @app.route("/logout")
 def logout():
@@ -51,10 +50,9 @@ def logout():
 
 @app.route('/exercise/<number>')
 def do_exercise(number):
-    expath="exercises/exercise{}.html".format(number)
-    return render_template(expath)
+    return render_template('exercises/exercise1.html',options=exerciseinput.getQuery(number))
 
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(12)
-    app.run(debug=True, host='0.0.0.0', port=80)
+    app.run(debug=True, host='0.0.0.0', port=8080)

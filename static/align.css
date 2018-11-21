@@ -13,7 +13,7 @@
 			}
 			#main{
 				float:left;
-				width:80%;
+				width:85%;
 				background-color: lightgray;
 				padding-top: 20px;
 
@@ -71,7 +71,6 @@ td, th {
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
-    width:25%
 }
 
 tr:nth-child(even) {
@@ -107,4 +106,18 @@ tr:nth-child(even) {
     color: white;
     transform: translate(-50%,-50%);
     -ms-transform: translate(-50%,-50%);
+}
+
+.th1{
+ width:15%
+}
+.th2{
+ width:35%
+}
+.th3{
+ width:5%
+}
+
+.th4{
+ width:45%
 }

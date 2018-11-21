@@ -1,26 +1,26 @@
 
 def ex11():
-    return "SELECT * FROM lab_ex11 limit 10"
+    return "SELECT * FROM lab_ex11 limit 2"
 
 def ex12():
-    return "SELECT * FROM lab_ex12 limit 10"
+    return "SELECT * FROM lab_ex12 limit 2"
 
 def ex13():
-    return "SELECT * FROM lab_ex13 limit 10"
+    return "SELECT * FROM lab_ex13 limit 2"
 
 def ex14():
-    return "SELECT * FROM lab_ex14 limit 10"
+    return "SELECT * FROM lab_ex14 limit 2"
 
 def ex15():
-    return "SELECT * FROM lab_ex15 limit 10"
+    return "SELECT * FROM lab_ex15 limit 2"
 
 def getQuery(argument):
     switcher = {
-        'q1': ex11,
-        'q2': ex12,
-        'q3': ex13,
-        'q4': ex14,
-        'q5': ex15,
+        'q11': ex11,
+        'q12': ex12,
+        'q13': ex13,
+        'q14': ex14,
+        'q15': ex15,
 
     }
     # Get the function from switcher dictionary
@@ -28,4 +28,4 @@ def getQuery(argument):
     # Execute the function
     return func()
 
-print(getQuery('q1'))
+print(getQuery('q11'))
