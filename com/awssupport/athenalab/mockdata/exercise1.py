@@ -5,9 +5,9 @@ import time
 
 class exercise1():
 
-    glue= boto3.client('glue',region_name='us-east-1')
-    s3 = boto3.client('s3', region_name='us-east-1')
-    athena = boto3.client('athena', region_name='us-east-1')
+    glue= boto3.client('glue')
+    s3 = boto3.client('s3')
+    athena = boto3.client('athena')
     dbname="athenalabdb"
     s3bucket="athenalab-{}".format(str(int(time.time())))
     prefix='athenalab/exer1/'
