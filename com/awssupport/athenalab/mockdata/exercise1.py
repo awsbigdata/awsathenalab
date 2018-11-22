@@ -35,7 +35,7 @@ class exercise1():
         print(self.dbname)
         for db in response['DatabaseList']:
             if db['Name'] == self.dbname:
-                return True
+                self.deleteDatabase()
         self.glue.create_database(DatabaseInput={'Name': self.dbname,'Description': 'it was created as part of Athena lab'})
         return True
 
