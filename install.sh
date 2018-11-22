@@ -1,25 +1,25 @@
 #!/bin/bash
 
-set -x -e 
+set -x -e
 
-cd /home/ec2-user/awsathenalab
+
+#cd /home/ec2-user/awsathenalab
 
 region=$(curl http://169.254.169.254/latest/dynamic/instance-identity/document|grep region|awk -F\" '{print $4}')
 
-mkdir -p ~/.aws/
+
 
 echo "[default]" > ~/.aws/config
 echo "region = ${region}" >> ~/.aws/config
 
-sudo mkdir -p /root/.aws
-sudo cp ~/.aws/config /root/.aws/config
 
-sudo pip install -r requirements.txt 
+
+pip install -r requirements.txt
 
 python dummy.py $1
 
 python mockdataCreation.py
 
-screen -S pythonserver -L -d -m  sudo python app.py
+nohup python app.py >server.log
 
 echo "server started"

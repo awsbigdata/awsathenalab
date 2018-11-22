@@ -2,6 +2,7 @@ AWSTemplateFormatVersion: "2010-09-09"
 Description:
   This template deploys a Athena exercises.
 
+
 Mappings:
   RegionMap:
     us-east-1:
@@ -99,27 +100,100 @@ Resources:
           InstallAndRun:
             - Install
             - clone_github
-            - start_server
         Install:
           packages:
             yum:
               git: []
+              awslogs: []
+              jq: []
+          files:
+              '/etc/awslogs/awscli.conf':
+                content: !Sub |
+                  [default]
+                  region = ${AWS::Region}
+                  [plugins]
+                  cwlogs = cwlogs
+                mode: '000644'
+                owner: root
+                group: root
+              '/etc/awslogs/awslogs.conf':
+                content: !Sub |
+                  [general]
+                  state_file = /var/lib/awslogs/agent-state
+                  [/mnt/lab/athenalab/server.log]
+                  datetime_format = %b %d %H:%M:%S
+                  file = /mnt/lab/athenalab/server.log
+                  log_stream_name = ${AWS::StackName}/{instance_id}/var/log/cloud-init.log
+                  log_group_name = /athenalab/ec2logs
+                  [/var/log/cloud-init.log]
+                  datetime_format = %b %d %H:%M:%S
+                  file = /var/log/cloud-init.log
+                  log_stream_name = ${AWS::StackName}/{instance_id}/var/log/cloud-init.log
+                  log_group_name = /athenalab/ec2logs
+                  [/var/log/cfn-init.log]
+                  datetime_format = %Y-%m-%d %H:%M:%S
+                  file = /var/log/cfn-init.log
+                  log_stream_name = ${AWS::StackName}/{instance_id}/var/log/cfn-init.log
+                  log_group_name = /athenalab/ec2logs
+                  [/var/log/cfn-hup.log]
+                  datetime_format = %Y-%m-%d %H:%M:%S
+                  file = /var/log/cfn-hup.log
+                  log_stream_name = ${AWS::StackName}/{instance_id}/var/log/cfn-hup.log
+                  log_group_name = /athenalab/ec2logs
+                  [/var/log/cfn-init-cmd.log]
+                  datetime_format = %Y-%m-%d %H:%M:%S
+                  file = /var/log/cfn-init-cmd.log
+                  log_stream_name = ${AWS::StackName}/{instance_id}/var/log/cfn-init-cmd.log
+                  log_group_name = /athenalab/ec2logs
+                  [/var/log/cloud-init-output.log]
+                  file = /var/log/cloud-init-output.log
+                  log_stream_name = ${AWS::StackName}/{instance_id}/var/log/cloud-init-output.log
+                  log_group_name = /athenalab/ec2logs
+                mode: '000644'
+                owner: root
+                group: root
+              '/etc/cfn/cfn-hup.conf':
+                content: !Sub |
+                  [main]
+                  stack=${AWS::StackId}
+                  region=${AWS::Region}
+                  interval=1
+                mode: '000400'
+                owner: root
+                group: root
+              '/etc/cfn/hooks.d/cfn-auto-reloader.conf':
+                content: !Sub |
+                  [cfn-auto-reloader-hook]
+                  triggers=post.update
+                  path=Resources.EC2Instance.Metadata.AWS::CloudFormation::Init
+                  action=/opt/aws/bin/cfn-init --verbose --stack=${AWS::StackName} --region=${AWS::Region} --resource=EC2Instance
+                  runas=root
+          services:
+              sysvinit:
+                awslogs:
+                  enabled: true
+                  ensureRunning: true
+                  packages:
+                    yum:
+                    - awslogs
+                  files:
+                  - '/etc/awslogs/awslogs.conf'
+                  - '/etc/awslogs/awscli.conf'
+                cfn-hup:
+                  enabled: true
+                  ensureRunning: true
+                  files:
+                  - '/etc/cfn/cfn-hup.conf'
+                  - '/etc/cfn/hooks.d/cfn-auto-reloader.conf'
+
         clone_github:
           commands:
             clone:
               command: !Join
                 - ''
-                - - su -c "cd /home/ec2-user;git clone https://github.com/awsbigdata/awsathenalab.git" -s /bin/bash ec2-user
+                - - cd /mnt/lab/;git clone https://github.com/awsbigdata/awsathenalab.git
 
-        start_server:
-            commands:
-              start:
-                command: !Join
-                  - ''
-                  - - 'su -c "cd /home/ec2-user/awsathenalab;bash install.sh '
-                    - !GetAtt SampleString.RandomString
-                    - '"'
-                    - ' -s /bin/bash ec2-user'
+
 
     Properties:
       ImageId:
@@ -128,6 +202,7 @@ Resources:
           - Ref: "AWS::Region"
           - "AMI"
       InstanceType: t2.medium
+      KeyName: "awssupporteast"
       BlockDeviceMappings:
         - DeviceName: /dev/xvda
           Ebs:
@@ -148,9 +223,12 @@ Resources:
           - - |
               #!/bin/bash -xe
             - |
-              yum update -y
+              yum update -y ;
+            - |
+            -  mkdir -p /mnt/lab/;
             - |
               # Install the files and packages from the metadata
+            - |
             - '/opt/aws/bin/cfn-init -v '
             - '         --stack '
             - !Ref 'AWS::StackName'
@@ -170,14 +248,18 @@ Resources:
             - !Ref 'AWS::Region'
             - |+
 
+            - |
+            - 'cd /mnt/lab/awsathenalab/;bash install.sh '
+            - !GetAtt SampleString.RandomString
+            - |+
+
       Tags:
         - Key: Name
           Value: Athena Exercise
-
+    DependsOn : "GlueRole"
     CreationPolicy:
       ResourceSignal:
         Timeout: "PT5M"
-
 
 
   RootRole:
@@ -204,7 +286,7 @@ Resources:
         Statement:
           -
             Effect: "Allow"
-            Action: ["dynamodb:*","kms:*","athena:*","glue:*","iam:*","s3:*"]
+            Action: ["dynamodb:*","logs:*","kms:*","athena:*","glue:*","iam:*","s3:*"]
             Resource: "*"
       Roles:
         -
