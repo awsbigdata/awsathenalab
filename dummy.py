@@ -1,18 +1,21 @@
-import datetime
-from sqlalchemy import create_engine
+
+import sys
 from sqlalchemy.orm import sessionmaker
 from tabledef import *
 from com.awssupport.athenalab.dao import exerciseinput
 
 from exercisedef import *
 
+
+
 engine = create_engine('sqlite:///dbathena.db', echo=True)
 
 # create a Session
 Session = sessionmaker(bind=engine)
 session = Session()
+print(sys.argv[1])
 
-user = User("admin", "password")
+user = User("admin", sys.argv[1])
 session.add(user)
 
 
