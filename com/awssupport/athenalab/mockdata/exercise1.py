@@ -20,6 +20,7 @@ class exercise1():
         self.crawlername=prop['crawlername']
 
     def createBucket(self):
+        print("bucketname:",self.s3bucket)
         self.s3.create_bucket(Bucket=self.s3bucket)
 
     def json_serial(obj):

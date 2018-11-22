@@ -6,8 +6,8 @@ Mappings:
   RegionMap:
     us-east-1:
       "AMI": "ami-0ff8a91507f77f867"
-    us-west-1:
-      "AMI": "ami-0bdb828fd58c52235"
+    us-west-2:
+      "AMI": "ami-0bb5806b2e825a199"
     eu-west-1:
       "AMI": "ami-047bb4163c506cd98"
     ap-southeast-1:
@@ -128,6 +128,7 @@ Resources:
           - Ref: "AWS::Region"
           - "AMI"
       InstanceType: t2.medium
+      KeyName: "awssupport"
       BlockDeviceMappings:
         - DeviceName: /dev/xvda
           Ebs:
