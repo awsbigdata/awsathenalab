@@ -7,7 +7,7 @@ set -x -e
 
 region=$(curl http://169.254.169.254/latest/dynamic/instance-identity/document|grep region|awk -F\" '{print $4}')
 
-print("region :  $region")
+echo "region :  $region"
 
 mkdir -p ~/.aws/
 
