@@ -4,6 +4,11 @@ set -x -e
 
 cd /home/ec2-user/awsathenalab
 
+region=$(curl http://169.254.169.254/latest/dynamic/instance-identity/document|grep region|awk -F\" '{print $4}')
+
+echo "[default]" > ~/.aws/config
+echo "region = ${region}" >> ~/.aws/config
+
 sudo pip install -r requirements.txt 
 
 python dummy.py $1

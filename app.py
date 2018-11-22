@@ -6,6 +6,7 @@ from datetime import date, datetime
 from sqlalchemy.pool import SingletonThreadPool
 from sqlalchemy.orm import sessionmaker
 from tabledef import *
+import cleanup
 
 engine = create_engine('sqlite:///dbathena.db', echo=True,poolclass=SingletonThreadPool)
 
@@ -92,6 +93,22 @@ def do_exercise(number):
         dict['comments']=row.comments
         options.append(dict)
     return render_template('exercises/exercise1.html',options=options)
+
+@app.route('/cleanup/')
+def cleandata():
+    Session = sessionmaker(bind=engine)
+    s = Session()
+    options = []
+    query = s.query(ExerciseTopic)
+    # {"id":"q11","groupid":"q1","desc":"Hive Schema mismatch error","run":"","result":""}
+    for row in query:
+        dict=json.loads(row.property)
+        for key in dict.keys():
+            cleanup.cleanup(key,dict[key])
+            options.append(key,dict[key])
+
+    return render_template('exercises/removesuccess.html',options=options)
+
 
 
 if __name__ == "__main__":
