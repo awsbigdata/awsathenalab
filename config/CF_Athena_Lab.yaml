@@ -100,6 +100,7 @@ Resources:
           InstallAndRun:
             - Install
             - clone_github
+            - start_server
         Install:
           packages:
             yum:
@@ -191,10 +192,14 @@ Resources:
             clone:
               command: !Join
                 - ''
-                - - cd /mnt/lab/;git clone https://github.com/awsbigdata/awsathenalab.git
-
-
-
+                - - mkdir -p /mnt/lab/;cd /mnt/lab/;git clone https://github.com/awsbigdata/awsathenalab.git
+        start_server:
+          commands:
+            clone:
+              command: !Join
+                - ''
+                - - 'cd /mnt/lab/awsathenalab/;bash install.sh '
+                  - !GetAtt SampleString.RandomString
     Properties:
       ImageId:
         Fn::FindInMap:
@@ -202,7 +207,6 @@ Resources:
           - Ref: "AWS::Region"
           - "AMI"
       InstanceType: t2.medium
-      KeyName: "awssupporteast"
       BlockDeviceMappings:
         - DeviceName: /dev/xvda
           Ebs:
@@ -248,10 +252,7 @@ Resources:
             - !Ref 'AWS::Region'
             - |+
 
-            - |
-            - 'cd /mnt/lab/awsathenalab/;bash install.sh '
-            - !GetAtt SampleString.RandomString
-            - |+
+
 
       Tags:
         - Key: Name
