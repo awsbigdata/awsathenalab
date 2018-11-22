@@ -21,7 +21,8 @@ class exercise1():
 
     def createBucket(self):
         print("bucketname:",self.s3bucket)
-        self.s3.create_bucket(Bucket=self.s3bucket)
+        self.s3.create_bucket(Bucket=self.s3bucket,CreateBucketConfiguration={
+    'LocationConstraint': boto3.session.Session().region_name})
 
     def json_serial(obj):
         """JSON serializer for objects not serializable by default json code"""
