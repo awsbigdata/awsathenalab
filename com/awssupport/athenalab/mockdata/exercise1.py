@@ -21,6 +21,7 @@ class exercise1():
 
     def createBucket(self):
         print("bucketname:",self.s3bucket)
+        print("region Name: ",boto3.session.Session().region_name)
         self.s3.create_bucket(Bucket=self.s3bucket,CreateBucketConfiguration={
     'LocationConstraint': boto3.session.Session().region_name})
 
