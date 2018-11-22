@@ -124,7 +124,7 @@ Resources:
                   [/mnt/lab/athenalab/server.log]
                   datetime_format = %b %d %H:%M:%S
                   file = /mnt/lab/athenalab/server.log
-                  log_stream_name = ${AWS::StackName}/{instance_id}/var/log/cloud-init.log
+                  log_stream_name = ${AWS::StackName}/{instance_id}/var/log/server.log
                   log_group_name = /athenalab/ec2logs
                   [/var/log/cloud-init.log]
                   datetime_format = %b %d %H:%M:%S
