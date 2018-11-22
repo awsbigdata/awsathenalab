@@ -30,8 +30,9 @@ class exercise1():
 
     def createdatabase(self):
         response = self.glue.get_databases()
-        for dbname in response['DatabaseList']:
-            if dbname['Name'] == self.dbname:
+        print(self.dbname)
+        for db in response['DatabaseList']:
+            if db['Name'] == self.dbname:
                 return True
         self.glue.create_database(DatabaseInput={'Name': self.dbname,'Description': 'it was created as part of Athena lab'})
         return True

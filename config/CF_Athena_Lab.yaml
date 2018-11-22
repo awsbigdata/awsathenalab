@@ -205,7 +205,7 @@ Resources:
         Statement:
           -
             Effect: "Allow"
-            Action: ["dynamodb:*","athena:*","glue:*","iam:*","s3:*"]
+            Action: ["dynamodb:*","kms:*","athena:*","glue:*","iam:*","s3:*"]
             Resource: "*"
       Roles:
         -
@@ -290,4 +290,4 @@ Outputs:
     Value: 'admin'
   Password:
     Description : "Password for Athena Lab"
-    Value: !GetAtt SampleString.PublicDnsName.RandomString
+    Value: !GetAtt SampleString.RandomString

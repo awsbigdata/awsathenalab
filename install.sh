@@ -11,6 +11,9 @@ mkdir -p ~/.aws/
 echo "[default]" > ~/.aws/config
 echo "region = ${region}" >> ~/.aws/config
 
+sudo mkdir -p /root/.aws
+sudo cp ~/.aws/config /root/.aws/config
+
 sudo pip install -r requirements.txt 
 
 python dummy.py $1
