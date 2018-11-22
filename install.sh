@@ -6,6 +6,8 @@ cd /home/ec2-user/awsathenalab
 
 region=$(curl http://169.254.169.254/latest/dynamic/instance-identity/document|grep region|awk -F\" '{print $4}')
 
+mkdir -p ~/.aws/
+
 echo "[default]" > ~/.aws/config
 echo "region = ${region}" >> ~/.aws/config
 
