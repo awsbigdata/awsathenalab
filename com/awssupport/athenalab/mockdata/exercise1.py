@@ -22,7 +22,10 @@ class exercise1():
     def createBucket(self):
         print("bucketname:",self.s3bucket)
         print("region Name: ",boto3.session.Session().region_name)
-        self.s3.create_bucket(Bucket=self.s3bucket,CreateBucketConfiguration={
+        if(boto3.session.Session().region_name=='us-east-1'):
+            self.s3.create_bucket(Bucket=self.s3bucket)
+        else:
+            self.s3.create_bucket(Bucket=self.s3bucket,CreateBucketConfiguration={
     'LocationConstraint': boto3.session.Session().region_name})
 
     def json_serial(obj):
