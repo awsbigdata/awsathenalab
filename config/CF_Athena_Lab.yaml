@@ -280,4 +280,14 @@ Resources:
 Outputs:
   InstallURL:
     Description : "URL for newly created Athena Lab"
+    Value:
+       !Join
+          - ''
+          - - 'http://'
+            - !GetAtt Ec2Instance.PublicDnsName
+  username:
+    Description : "Username for Athena Lab"
     Value: 'admin'
+  Password:
+    Description : "Password for Athena Lab"
+    Value: !GetAtt SampleString.PublicDnsName.RandomString
