@@ -8,37 +8,39 @@ import json
 import time
 
 
-engine = create_engine('sqlite:///dbathena.db', echo=True)
-Base = declarative_base()
-
-# create tables
-Base.metadata.create_all(engine)
-
-# create a Session
-Session = sessionmaker(bind=engine)
-session = Session()
-print(sys.argv[1])
-
-user = User("admin", sys.argv[1])
-session.add(user)
+def user_data(session):
+    print(sys.argv[1])
+    user = User("admin", sys.argv[1])
+    session.add(user)
+    # commit the record the database
+    session.commit()
 
 
-# commit the record the database
-session.commit()
+
 
 
 #ex1
 
-for i in exerciseinput.getQuery('q1'):
-    print(i)
-    exer=Exercise(i)
-    session.add(exer)
+def exerciseData(session):
+    for i in exerciseinput.getQuery('q1'):
+        print(i)
+        exer = Exercise(i)
+        session.add(exer)
+    dbname = "athenalabdb"
+    s3bucket = "athenalab-{}".format(str(int(time.time())))
+    extopic = ExerciseTopic("q1", json.dumps({"dbname": dbname, "s3bucket": s3bucket, "crawlername": "Athena_labq1"}))
+    session.add(extopic)
+    session.commit()
 
-dbname="athenalabdb"
-s3bucket="athenalab-{}".format(str(int(time.time())))
 
-extopic=ExerciseTopic("q1",json.dumps({"dbname":dbname,"s3bucket":s3bucket,"crawlername":"Athena_labq1"}))
-session.add(extopic)
-session.commit()
 
+
+if __name__ == '__main__':
+    engine = create_engine('sqlite:///dbathena.db', echo=True)
+    Base = declarative_base()
+    # create a Session
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    user_data(session)
+    exerciseData(session)
 

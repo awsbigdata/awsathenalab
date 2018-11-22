@@ -6,7 +6,7 @@ from datetime import date, datetime
 from sqlalchemy.pool import SingletonThreadPool
 from sqlalchemy.orm import sessionmaker
 from tabledef import *
-import cleanup
+import cleanup,mockdataCreation,dummy
 
 engine = create_engine('sqlite:///dbathena.db', echo=True,poolclass=SingletonThreadPool)
 
@@ -108,9 +108,18 @@ def cleandata():
         for key in dict.keys():
             print(key,dict[key],)
             cleanup.cleanup(key,dict[key])
+        #session.delete(row)
         options.append(dict)
 
     return render_template('exercises/removesuccess.html',options=options)
+
+@app.route('/createData')
+def createData():
+    Session = sessionmaker(bind=engine)
+    s = Session()
+    #dummy.exerciseData(s)
+    mockdataCreation.sample_data(s)
+    return home()
 
 
 

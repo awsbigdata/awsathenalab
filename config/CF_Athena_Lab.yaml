@@ -128,7 +128,6 @@ Resources:
           - Ref: "AWS::Region"
           - "AMI"
       InstanceType: t2.medium
-      KeyName: "awssupporteast"
       BlockDeviceMappings:
         - DeviceName: /dev/xvda
           Ebs:

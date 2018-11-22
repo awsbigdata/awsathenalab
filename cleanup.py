@@ -1,4 +1,5 @@
 import boto3
+import time
 
 glue = boto3.client('glue')
 s3 = boto3.client('s3')
@@ -26,6 +27,13 @@ def deleteCrawler(name):
     res='none'
     for cname in response['Crawlers']:
         if cname['Name'] == name:
+            print(cname['State'])
+            while cname['State']!='READY':
+                if(cname['State']=='RUNNING'):
+                    response = glue.stop_crawler(Name=cname['Name'])
+                time.sleep(5)
+                cres=glue.get_crawler(Name=cname['Name'])
+                cname=cres['Crawler']
             res = glue.delete_crawler(Name=name)
             print(res)
     return res
