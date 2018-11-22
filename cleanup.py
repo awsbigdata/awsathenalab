@@ -8,16 +8,18 @@ def deleteDB(name):
     response = glue.get_databases()
     for dbname in response['DatabaseList']:
         if dbname['Name'] == name:
-                response = glue.delete_database(name)
+                response = glue.delete_database(Name=name)
     return response
 
 def deleteS3bucket(name):
+    print("bucket name")
     s3 = boto3.resource('s3')
-    bucket = s3.Bucket(name)
-    for key in bucket.objects.all():
-        key.delete()
-    bucket.delete()
-    return "SELECT * FROM lab_ex12 limit 2"
+    if s3.Bucket(name) in s3.buckets.all():
+        bucket = s3.Bucket(name)
+        for key in bucket.objects.all():
+            key.delete()
+            bucket.delete()
+    return  name
 
 def deleteCrawler(name):
     response = glue.get_crawlers()

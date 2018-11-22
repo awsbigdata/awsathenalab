@@ -1,14 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Removed</title>
-</head>
-<body>
+{% extends "layout.html" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+  {{ super() }}
+
+{% endblock %}
+
+{% block body %}
 
 All data has been removed !
 
-{{ options }}
+<table>
+  <tr>
 
-</body>
-</html>
+    <th class="th4">details</th>
+  </tr>
+ {% for item in options %}
+ <tr>
+        <td class="col1">{{ item}}</td>
+
+    </tr>
+
+ {% endfor %}
+</table>
+  <a id='tablecreate' href="/">Go to Home</a>
+{% endblock %}

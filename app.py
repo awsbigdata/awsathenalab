@@ -92,9 +92,11 @@ def do_exercise(number):
         dict['result']=row.result
         dict['comments']=row.comments
         options.append(dict)
+
     return render_template('exercises/exercise1.html',options=options)
 
-@app.route('/cleanup/')
+
+@app.route('/cleanup')
 def cleandata():
     Session = sessionmaker(bind=engine)
     s = Session()
@@ -104,8 +106,9 @@ def cleandata():
     for row in query:
         dict=json.loads(row.property)
         for key in dict.keys():
+            print(key,dict[key],)
             cleanup.cleanup(key,dict[key])
-            options.append(key,dict[key])
+        options.append(dict)
 
     return render_template('exercises/removesuccess.html',options=options)
 
@@ -113,4 +116,5 @@ def cleandata():
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(12)
-    app.run(debug=True, host='0.0.0.0', port=80)
+    app.run(debug=True, host='0.0.0.0', port=8080)
+    #app.run(debug=True, host='0.0.0.0', port=80)
