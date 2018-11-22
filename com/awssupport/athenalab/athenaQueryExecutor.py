@@ -1,14 +1,14 @@
 import boto3
 import time
 
-client = boto3.client('athena',region_name='us-east-1')
+client = boto3.client('athena')
 dbname = "athenalabdb"
 
-def submitQuery(query):
+def submitQuery(query,stage):
     #query="""SELECT * FROM lab_exe1"""
     print(query)
     res = client.start_query_execution(QueryString=query, QueryExecutionContext={'Database': dbname},
-                                      ResultConfiguration={'OutputLocation':'s3://testeastreg/output'})
+                                      ResultConfiguration={'OutputLocation':'s3://{}/output'.format(stage)})
     return res
 
 def waitForQueryToComplete(queryid):
@@ -31,8 +31,8 @@ def waitForQueryToComplete(queryid):
     return response
 
 
-def executeQuery(query):
-    res=submitQuery(query)
+def executeQuery(query,stage):
+    res=submitQuery(query,stage)
     result=waitForQueryToComplete(res['QueryExecutionId'])
     return result
 

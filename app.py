@@ -68,7 +68,13 @@ def run_query(number):
     """ Ajax call for execution"""
     Session = sessionmaker(bind=engine)
     s = Session()
-    out=queryvalidation.query_validation(number)
+    if not session.get('s3bucket'):
+        query=s.query(Exercise).filter(Exercise.id.__eq__(number))
+        rrow=query.first()
+        query=s.query(ExerciseTopic).filter(ExerciseTopic.id.__eq__(rrow.groupid))
+        prop=json.loads(query.first().property);
+        session['s3bucket']=prop['s3bucket']
+    out=queryvalidation.query_validation(number,session.get('s3bucket'))
     s.query(Exercise).filter(Exercise.id.__eq__(number)).update({'comments':json.dumps(out),'result':out['status']})
     s.commit()
     return json.dumps(out)

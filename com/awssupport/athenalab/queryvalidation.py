@@ -1,19 +1,19 @@
 from com.awssupport.athenalab import athenaQueryExecutor,exerciesQuery
 
 
-def ex11(number):
+def ex11(number,stage):
     query = exerciesQuery.getQuery(number)
-    out = athenaQueryExecutor.executeQuery(query)
+    out = athenaQueryExecutor.executeQuery(query,stage)
     return responseformat(out=out)
 
-def ex12(number):
+def ex12(number,stage):
     query = exerciesQuery.getQuery(number)
-    out = athenaQueryExecutor.executeQuery(query)
+    out = athenaQueryExecutor.executeQuery(query,stage)
     return responseformat(out=out)
 
-def ex13(number):
+def ex13(number,stage):
     query = exerciesQuery.getQuery(number)
-    out = athenaQueryExecutor.executeQuery(query)
+    out = athenaQueryExecutor.executeQuery(query,stage)
     rs= responseformat(out=out)
     if(rs['status']=='SUCCEEDED'):
         out=athenaQueryExecutor.processresultset(rs['queryid'])
@@ -24,14 +24,14 @@ def ex13(number):
     else:
         return rs
 
-def ex14(number):
+def ex14(number,stage):
     query = exerciesQuery.getQuery(number)
-    out = athenaQueryExecutor.executeQuery(query)
+    out = athenaQueryExecutor.executeQuery(query,stage)
     return responseformat(out=out)
 
-def ex15(number):
+def ex15(number,stage):
     query = exerciesQuery.getQuery(number)
-    out = athenaQueryExecutor.executeQuery(query)
+    out = athenaQueryExecutor.executeQuery(query,stage)
     rs = responseformat(out=out)
     if (rs['status'] == 'SUCCEEDED'):
         out = athenaQueryExecutor.processresultset(rs['queryid'])
@@ -56,7 +56,7 @@ def responseformat(out):
          "message": out['QueryExecution']['Status']['StateChangeReason'],
          "queryid": out['QueryExecution']['QueryExecutionId']}
 
-def query_validation(argument):
+def query_validation(argument,stage):
     switcher = {
         'q11': ex11,
         'q12': ex12,
@@ -68,7 +68,7 @@ def query_validation(argument):
     # Get the function from switcher dictionary
     func = switcher.get(argument, lambda: "Invalid month")
     # Execute the function
-    return func(argument)
+    return func(argument,stage)
 
 
 
