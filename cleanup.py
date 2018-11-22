@@ -17,11 +17,10 @@ def deleteS3bucket(name):
     s3 = boto3.resource('s3')
     for eachbuk in s3.buckets.all():
         if 'athenalab' in eachbuk.name:
-            if s3.Bucket(eachbuk.name) in s3.buckets.all():
-                bucket = s3.Bucket(eachbuk.name)
-                for key in bucket.objects.all():
-                    key.delete()
-                bucket.delete()
+            bucket = s3.Bucket(eachbuk.name)
+            for key in bucket.objects.all():
+                key.delete()
+            bucket.delete()
 
 
 def deleteCrawler(name):

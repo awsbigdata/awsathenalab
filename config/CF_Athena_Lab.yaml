@@ -128,6 +128,7 @@ Resources:
           - Ref: "AWS::Region"
           - "AMI"
       InstanceType: t2.medium
+      KeyName: "test"
       BlockDeviceMappings:
         - DeviceName: /dev/xvda
           Ebs:
@@ -209,6 +210,36 @@ Resources:
       Roles:
         -
           Ref: "RootRole"
+
+  GlueRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      RoleName: "Athena_Exercise_Glue_Role"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Principal:
+              Service:
+                - "glue.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
+      Path: "/"
+  GluePolicies:
+    Type: "AWS::IAM::Policy"
+    Properties:
+      PolicyName: "Athena_Exercise_GLUE_Policy"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Action: ["dynamodb:*","kms:*","athena:*","glue:*","iam:*","s3:*","logs:*","kinesis:*"]
+            Resource: "*"
+      Roles:
+        -
+          Ref: "GlueRole"
 
   RootInstanceProfile:
     Type: "AWS::IAM::InstanceProfile"

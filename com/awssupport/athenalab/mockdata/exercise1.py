@@ -47,7 +47,7 @@ class exercise1():
 
     def crawlerCreate(self):
         self.deleteCrawler()
-        str = '{"Targets":{"JdbcTargets": [], "S3Targets": [{"Path": "'+"s3://{0}/{1}ex11/".format(self.s3bucket,self.prefix)+'", "Exclusions": []}], "DynamoDBTargets": []},  "Role": "AWSGlueServiceRoleDefault", "DatabaseName": "hive_glue", "SchemaChangePolicy": {"DeleteBehavior": "DEPRECATE_IN_DATABASE","UpdateBehavior": "UPDATE_IN_DATABASE"}, "TablePrefix": "lab_", "Classifiers": []}'
+        str = '{"Targets":{"JdbcTargets": [], "S3Targets": [{"Path": "'+"s3://{0}/{1}ex11/".format(self.s3bucket,self.prefix)+'", "Exclusions": []}], "DynamoDBTargets": []},  "Role": "Athena_Exercise_Glue_Role", "DatabaseName": "hive_glue", "SchemaChangePolicy": {"DeleteBehavior": "DEPRECATE_IN_DATABASE","UpdateBehavior": "UPDATE_IN_DATABASE"}, "TablePrefix": "lab_", "Classifiers": []}'
         crawlersetup = json.loads(str)
         response = self.glue.create_crawler(Name=self.crawlername, Role=crawlersetup['Role'],
                                             DatabaseName=self.dbname, Targets=crawlersetup['Targets'],
