@@ -8,6 +8,8 @@ sudo pip install -r requirements.txt
 
 python dummy.py $1
 
+python mockdataCreation.py
+
 screen -S pythonserver -L -d -m  sudo python app.py
 
 echo "server started"

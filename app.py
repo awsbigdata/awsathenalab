@@ -3,7 +3,7 @@ import os
 import json
 from com.awssupport.athenalab import queryvalidation
 from datetime import date, datetime
-from exercisedef import *
+from sqlalchemy.pool import SingletonThreadPool
 from sqlalchemy.orm import sessionmaker
 from tabledef import *
 

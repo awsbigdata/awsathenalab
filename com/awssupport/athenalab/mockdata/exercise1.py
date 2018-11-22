@@ -5,6 +5,7 @@ import time
 
 class exercise1():
 
+
     glue= boto3.client('glue')
     s3 = boto3.client('s3')
     athena = boto3.client('athena')
@@ -12,6 +13,11 @@ class exercise1():
     s3bucket="athenalab-{}".format(str(int(time.time())))
     prefix='athenalab/exer1/'
     crawlername='Athena_lab11'
+
+    def __init__(self,prop):
+        self.dbname=prop['dbname']
+        self.s3bucket=prop['s3bucket']
+        self.crawlername=prop['crawlername']
 
     def createBucket(self):
         self.s3.create_bucket(Bucket=self.s3bucket)
@@ -23,7 +29,12 @@ class exercise1():
             return obj.isoformat()
 
     def createdatabase(self):
+        response = self.glue.get_databases()
+        for dbname in response['DatabaseList']:
+            if dbname['Name'] == self.dbname:
+                return True
         self.glue.create_database(DatabaseInput={'Name': self.dbname,'Description': 'it was created as part of Athena lab'})
+        return True
 
     def copyJson(self):
         content = '{"name":"john","numbertest":10, "address":{ "location":"sydney","phone":{"test":"java"}}}'
@@ -69,8 +80,8 @@ class exercise1():
         self.startCrawler()
 
     def cleanup(self):
-        self.deleteDatabase()
-        self.deletes3()
+      #  self.deleteDatabase()
+       # self.deletes3()
         self.deleteCrawler()
         print('clean up completed')
 
