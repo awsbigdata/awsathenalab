@@ -15,12 +15,14 @@ def deleteDB(name):
 def deleteS3bucket(name):
     print("bucket name")
     s3 = boto3.resource('s3')
-    if s3.Bucket(name) in s3.buckets.all():
-        bucket = s3.Bucket(name)
-        for key in bucket.objects.all():
-            key.delete()
-        bucket.delete()
-    return  name
+    for eachbuk in s3.buckets.all():
+        if 'athenalab' in eachbuk.name:
+            if s3.Bucket(eachbuk.name) in s3.buckets.all():
+                bucket = s3.Bucket(eachbuk.name)
+                for key in bucket.objects.all():
+                    key.delete()
+                bucket.delete()
+
 
 def deleteCrawler(name):
     response = glue.get_crawlers()
