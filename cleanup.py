@@ -18,7 +18,7 @@ def deleteS3bucket(name):
         bucket = s3.Bucket(name)
         for key in bucket.objects.all():
             key.delete()
-            bucket.delete()
+        bucket.delete()
     return  name
 
 def deleteCrawler(name):
