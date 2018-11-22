@@ -46,6 +46,7 @@ class exercise1():
         self.s3.put_object(Bucket=self.s3bucket, Key='{}{}'.format(self.prefix,'ex11/dt=20181011/test2.json'), Body=content)
 
     def crawlerCreate(self):
+        self.deleteCrawler()
         str = '{"Targets":{"JdbcTargets": [], "S3Targets": [{"Path": "'+"s3://{0}/{1}ex11/".format(self.s3bucket,self.prefix)+'", "Exclusions": []}], "DynamoDBTargets": []},  "Role": "AWSGlueServiceRoleDefault", "DatabaseName": "hive_glue", "SchemaChangePolicy": {"DeleteBehavior": "DEPRECATE_IN_DATABASE","UpdateBehavior": "UPDATE_IN_DATABASE"}, "TablePrefix": "lab_", "Classifiers": []}'
         crawlersetup = json.loads(str)
         response = self.glue.create_crawler(Name=self.crawlername, Role=crawlersetup['Role'],
