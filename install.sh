@@ -20,6 +20,6 @@ python dummy.py $1
 
 python mockdataCreation.py
 
-nohup python app.py >server.log
+nohup python app.py >server.log &
 
 echo "server started"
