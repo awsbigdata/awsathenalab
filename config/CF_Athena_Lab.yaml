@@ -173,8 +173,8 @@ Resources:
                 content: !Sub |
                   [cfn-auto-reloader-hook]
                   triggers=post.update
-                  path=Resources.EC2Instance.Metadata.AWS::CloudFormation::Init
-                  action=/opt/aws/bin/cfn-init --verbose --stack=${AWS::StackName} --region=${AWS::Region} --resource=EC2Instance
+                  path=Resources.Ec2Instance.Metadata.AWS::CloudFormation::Init
+                  action=/opt/aws/bin/cfn-init --verbose --stack=${AWS::StackName} --region=${AWS::Region} --resource=Ec2Instance
                   runas=root
           services:
               sysvinit:
@@ -203,8 +203,10 @@ Resources:
         start_server:
           commands:
             start:
-              command: !Sub |
-                   cd /mnt/lab/awsathenalab/;bash install.sh ${SampleString.RandomString}
+              command: !Join
+                 - ''
+                 - - 'cd /mnt/lab/awsathenalab/;bash install.sh '
+                   - !GetAtt SampleString.RandomString
     Properties:
       ImageId:
         Fn::FindInMap:
