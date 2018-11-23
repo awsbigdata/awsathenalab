@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -x -e
+set -x 
 
 
 #cd /home/ec2-user/awsathenalab

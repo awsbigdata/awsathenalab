@@ -202,11 +202,9 @@ Resources:
                 - - mkdir -p /mnt/lab/;cd /mnt/lab/;git clone https://github.com/awsbigdata/awsathenalab.git
         start_server:
           commands:
-            clone:
-              command: !Join
-                - ''
-                - - 'cd /mnt/lab/awsathenalab/;bash install.sh '
-                  - !GetAtt SampleString.RandomString
+            start:
+              command: !Sub |
+                   cd /mnt/lab/awsathenalab/;bash install.sh ${SampleString.RandomString}
     Properties:
       ImageId:
         Fn::FindInMap:
@@ -259,6 +257,9 @@ Resources:
             - !Ref 'AWS::Region'
             - |+
 
+            - |
+            -  sleep 20
+            - |+
 
 
       Tags:
