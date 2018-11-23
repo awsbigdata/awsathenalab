@@ -14,9 +14,6 @@ mkdir -p ~/.aws/
 echo "[default]" > ~/.aws/config
 echo "region = ${region}" >> ~/.aws/config
 
-RUN ln -sf /dev/stdout /var/log/athenalab.log \
-    && ln -sf /dev/stderr /var/log/athenalaberror.log
-
 pip install -r requirements.txt
 
 python dummy.py $1
