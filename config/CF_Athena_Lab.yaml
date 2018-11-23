@@ -202,7 +202,7 @@ Resources:
                 - - mkdir -p /mnt/lab/;cd /mnt/lab/;git clone https://github.com/awsbigdata/awsathenalab.git
         start_server:
           commands:
-            start:
+            start_GUI:
               command: !Join
                  - ''
                  - - 'cd /mnt/lab/awsathenalab/;bash install.sh '
@@ -259,18 +259,13 @@ Resources:
             - !Ref 'AWS::Region'
             - |+
 
-            - |
-            -  sleep 20
-            - |+
-
-
       Tags:
         - Key: Name
           Value: Athena Exercise
     DependsOn : "GlueRole"
     CreationPolicy:
       ResourceSignal:
-        Timeout: "PT5M"
+        Timeout: "PT25M"
 
 
   RootRole:
