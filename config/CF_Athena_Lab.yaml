@@ -100,7 +100,6 @@ Resources:
           InstallAndRun:
             - Install
             - clone_github
-            - start_server
         Install:
           packages:
             yum:
@@ -200,13 +199,6 @@ Resources:
               command: !Join
                 - ''
                 - - mkdir -p /mnt/lab/;cd /mnt/lab/;git clone https://github.com/awsbigdata/awsathenalab.git
-        start_server:
-          commands:
-            start_GUI:
-              command: !Join
-                 - ''
-                 - - 'cd /mnt/lab/awsathenalab/;bash install.sh '
-                   - !GetAtt SampleString.RandomString
     Properties:
       ImageId:
         Fn::FindInMap:
@@ -257,6 +249,11 @@ Resources:
             - '         --resource Ec2Instance '
             - '         --region '
             - !Ref 'AWS::Region'
+            - |+
+
+            - |
+            - 'cd /mnt/lab/awsathenalab/;bash install.sh '
+            - !GetAtt SampleString.RandomString
             - |+
 
       Tags:
