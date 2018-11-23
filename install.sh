@@ -19,7 +19,7 @@ RUN ln -sf /dev/stdout /var/log/athenalab.log \
 
 pip install -r requirements.txt
 
-python dummy.py password
+python dummy.py $1
 
 python mockdataCreation.py
 
