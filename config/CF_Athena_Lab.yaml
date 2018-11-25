@@ -127,10 +127,10 @@ Resources:
                 content: !Sub |
                   [general]
                   state_file = /var/lib/awslogs/agent-state
-                  [/mnt/lab/athenalab/server.log]
+                  [/mnt/lab/awsathenalab/server.log]
                   datetime_format = %b %d %H:%M:%S
-                  file = /mnt/lab/athenalab/server.log
-                  log_stream_name = ${AWS::StackName}/{instance_id}/var/log/server.log
+                  file = /mnt/lab/awsathenalab/server.log
+                  log_stream_name = ${AWS::StackName}/{instance_id}/mnt/lab/awsathenalab/server.log
                   log_group_name = /athenalab/ec2logs
                   [/var/log/cloud-init.log]
                   datetime_format = %b %d %H:%M:%S

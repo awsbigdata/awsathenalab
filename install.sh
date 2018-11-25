@@ -22,4 +22,6 @@ python mockdataCreation.py
 
 nohup python app.py >server.log &
 
+disown
+
 echo "server started"
