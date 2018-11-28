@@ -22,15 +22,17 @@ def user_data(session):
 #ex1
 
 def exerciseData(session):
-    for i in exerciseinput.getQuery('q1'):
-        print(i)
-        exer = Exercise(i)
-        session.add(exer)
-    dbname = "athenalabdb"
-    s3bucket = "athenalab-{}".format(str(int(time.time())))
-    extopic = ExerciseTopic("q1", json.dumps({"dbname": dbname, "s3bucket": s3bucket, "crawlername": "Athena_labq1"}))
-    session.add(extopic)
-    session.commit()
+    for q in ('q1','q2'):
+        for i in exerciseinput.getQuery(q):
+            print(i)
+            exer = Exercise(i)
+            session.add(exer)
+
+        dbname = "athenalabdb"
+        s3bucket = "athenalab-{}".format(str(int(time.time())))
+        extopic = ExerciseTopic(q, json.dumps({"dbname": dbname, "s3bucket": s3bucket, "crawlername": "Athena_labq1"}))
+        session.add(extopic)
+        session.commit()
 
 
 

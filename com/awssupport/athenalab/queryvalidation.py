@@ -1,19 +1,16 @@
 from com.awssupport.athenalab import athenaQueryExecutor,exerciesQuery
 
 
-def ex11(number,stage):
-    query = exerciesQuery.getQuery(number)
-    out = athenaQueryExecutor.executeQuery(query,stage)
+def ex11(stage,ex_query):
+    out = athenaQueryExecutor.executeQuery(ex_query,stage)
     return responseformat(out=out)
 
-def ex12(number,stage):
-    query = exerciesQuery.getQuery(number)
-    out = athenaQueryExecutor.executeQuery(query,stage)
+def ex12(stage,ex_query):
+    out = athenaQueryExecutor.executeQuery(ex_query,stage)
     return responseformat(out=out)
 
-def ex13(number,stage):
-    query = exerciesQuery.getQuery(number)
-    out = athenaQueryExecutor.executeQuery(query,stage)
+def ex13(stage,ex_query):
+    out = athenaQueryExecutor.executeQuery(ex_query,stage)
     rs= responseformat(out=out)
     if(rs['status']=='SUCCEEDED'):
         out=athenaQueryExecutor.processresultset(rs['queryid'])
@@ -24,14 +21,12 @@ def ex13(number,stage):
     else:
         return rs
 
-def ex14(number,stage):
-    query = exerciesQuery.getQuery(number)
-    out = athenaQueryExecutor.executeQuery(query,stage)
+def ex14(stage,ex_query):
+    out = athenaQueryExecutor.executeQuery(ex_query,stage)
     return responseformat(out=out)
 
-def ex15(number,stage):
-    query = exerciesQuery.getQuery(number)
-    out = athenaQueryExecutor.executeQuery(query,stage)
+def ex15(stage,ex_query):
+    out = athenaQueryExecutor.executeQuery(ex_query,stage)
     rs = responseformat(out=out)
     if (rs['status'] == 'SUCCEEDED'):
         out = athenaQueryExecutor.processresultset(rs['queryid'])
@@ -45,6 +40,19 @@ def ex15(number,stage):
     else:
         return rs
 
+def ex21(stage,ex_query):
+    out = athenaQueryExecutor.executeQuery(ex_query,stage)
+    if('status' in out.keys()):
+       return out
+    return responseformat(out=out)
+
+def ex22(stage,ex_query):
+    out = athenaQueryExecutor.executeQuery(ex_query,stage)
+    if('status' in out.keys()):
+       return out
+    return responseformat(out=out)
+
+
 
 def responseformat(out):
     if out['QueryExecution']['Status']['State'] == 'SUCCEEDED':
@@ -56,19 +64,22 @@ def responseformat(out):
          "message": out['QueryExecution']['Status']['StateChangeReason'],
          "queryid": out['QueryExecution']['QueryExecutionId']}
 
-def query_validation(argument,stage):
+def query_validation(argument,stage,query):
     switcher = {
         'q11': ex11,
         'q12': ex12,
         'q13': ex13,
         'q14': ex14,
         'q15': ex15,
+        'q21': ex21,
+        'q22': ex22,
+
 
     }
     # Get the function from switcher dictionary
     func = switcher.get(argument, lambda: "Invalid month")
     # Execute the function
-    return func(argument,stage)
+    return func(stage,query)
 
 
 

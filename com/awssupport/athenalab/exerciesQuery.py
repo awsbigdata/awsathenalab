@@ -21,6 +21,9 @@ def getQuery(argument):
         'q13': ex13,
         'q14': ex14,
         'q15': ex15,
+        'q21': ex11,
+        'q22': ex12,
+
 
     }
     # Get the function from switcher dictionary
