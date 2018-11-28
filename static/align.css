@@ -109,17 +109,20 @@ tr:nth-child(even) {
 }
 
 .th1{
- width:15%
+ width:5%
 }
 .th2{
- width:35%
+ width:25%
 }
 .th3{
- width:5%
+ width:25%
 }
 
 .th4{
- width:45%
+ width:5%
+}
+.th5{
+ width:40%
 }
 
 .FAILED{
@@ -128,4 +131,43 @@ background-color:red
 
 .SUCCEEDED{
 background-color:green
+}
+
+.popup {
+    width:100%;
+    height:100%;
+    background-color:rgba(0,0,0,0.7);
+    position:fixed;
+    top:0;
+    left:0;
+}
+.popup div {
+    margin:0 auto;
+    width:600px;
+    height:200px;
+    padding:30px;
+    margin-top:15px;
+    background-color:white;
+    border-radius:15px;
+}
+.popup p {
+    margin:0 auto;
+    width:500px;
+    text-align:center;
+    white-space : normal;
+}
+.close-btn2{
+top:0;
+left:0;
+color:red;
+font-weight:bold;
+}
+.more{
+cursor: pointer;
+text-decoration: underline;
+color:blue
+}
+
+.true{
+background-color:blue;
 }

@@ -48,9 +48,11 @@ class Exercise(Base):
     id = Column(String, primary_key=True)
     groupid = Column(String)
     desc = Column(String)
+    query = Column(String)
     run = Column(String)
     comments = Column(String)
     result = Column(String)
+    editable = Column(String)
 
     # ----------------------------------------------------------------------
     def __init__(self, dict):
@@ -60,6 +62,8 @@ class Exercise(Base):
         self.comments = dict['comments']
         self.groupid = dict['groupid']
         self.result = dict['result']
+        self.query=dict['query']
+        self.editable=dict['editable']
 
 
 # create tables

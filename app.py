@@ -38,8 +38,9 @@ def home():
             dict = {}
             dict['id'] = row.id
             dict['desc'] = row.desc
+            dict['query'] = row.query
             dict['result'] = row.result
-            dict['comments'] = row.comments
+            dict['editable'] = row.editable
             options.append(dict)
         return render_template('exercises/exercise1.html',options=options)
 
@@ -74,8 +75,9 @@ def run_query(number):
         query=s.query(ExerciseTopic).filter(ExerciseTopic.id.__eq__(rrow.groupid))
         prop=json.loads(query.first().property);
         session['s3bucket']=prop['s3bucket']
-    out=queryvalidation.query_validation(number,session.get('s3bucket'))
-    s.query(Exercise).filter(Exercise.id.__eq__(number)).update({'comments':json.dumps(out),'result':out['status']})
+    row=s.query(Exercise).filter(Exercise.id.__eq__(number))
+    out=queryvalidation.query_validation(number,session.get('s3bucket'),row.first().query)
+    row.update({'comments':json.dumps(out,default=json_serial),'result':out['status']})
     s.commit()
     return json.dumps(out)
 
@@ -84,19 +86,31 @@ def logout():
     session['logged_in'] = False
     return home()
 
+@app.route("/updatequery/<number>",methods=['POST'])
+def updatequery(number):
+
+    Session = sessionmaker(bind=engine)
+    s = Session()
+    row = s.query(Exercise).filter(Exercise.id.__eq__(number.replace('u','')))
+    print(row.first().query)
+    row.update({'query':str(request.get_json()['ddl'])})
+    s.commit()
+    return "{'sucess':'ok'}"
+
 @app.route('/exercise/<number>')
 def do_exercise(number):
     Session = sessionmaker(bind=engine)
     s = Session()
     options=[]
     query = s.query(Exercise).filter(Exercise.groupid.__eq__(number))
-    #{"id":"q11","groupid":"q1","desc":"Hive Schema mismatch error","run":"","result":""}
     for row in query:
         dict={}
         dict['id']=row.id
         dict['desc']=row.desc
         dict['result']=row.result
-        dict['comments']=row.comments
+        dict['query']=row.query
+        dict['result']=row.result
+        dict['editable']=row.editable
         options.append(dict)
 
     return render_template('exercises/exercise1.html',options=options)

@@ -18,10 +18,10 @@
         <div style="left:20px;width:200px">
            <a href="{{ url_for('cleandata') }}">Remove Resources</a>
         </div>
-        <div class=metanav style="right:20px;width:200px">
+        <!--<div class=metanav style="right:20px;width:200px">
                 <div style="left:20px;width:200px">
            <a href="{{ url_for('createData') }}">create Resources</a>
-        </div>
+        </div>-->
   {% if not session.logged_in %}
     <a href="{{ url_for('do_admin_login') }}">log in</a>
   {% else %}
