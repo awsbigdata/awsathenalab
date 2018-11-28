@@ -10,7 +10,7 @@ dbname = "athenalabdb"
 def submitQuery(query,stage,boto3client=None):
     print(query)
     if boto3client is not None:
-        return execute(client, query, stage)
+        return execute(boto3client, query, stage)
     return execute(client, query, stage)
 
 
