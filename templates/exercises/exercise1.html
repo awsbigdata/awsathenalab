@@ -5,6 +5,7 @@
 
 <script>
 $(document).ready(function(){
+ $("#{{qid}}").css("color", "blue");
  $(document).ajaxStart(function(){
         $("#overlay").css("display","block")
         $("#wait").css("display", "block");
@@ -88,17 +89,7 @@ function execute(id){
 
 }
 </script>
-<style>
-    #tablecreate{
-    color: blue;
-    display: block;
-    }
 
-    #tablecreate a:hover{
-    color: red;
-    }
-
-</style>
 {% endblock %}
 {% block content %}
 <div id="overlay" onclick="off()">

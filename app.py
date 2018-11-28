@@ -42,7 +42,7 @@ def home():
             dict['result'] = row.result
             dict['editable'] = row.editable
             options.append(dict)
-        return render_template('exercises/exercise1.html',options=options)
+        return render_template('exercises/exercise1.html',options=options,qid='q1')
 
 
 @app.route('/login', methods=['POST','GET'])
@@ -113,7 +113,7 @@ def do_exercise(number):
         dict['editable']=row.editable
         options.append(dict)
 
-    return render_template('exercises/exercise1.html',options=options)
+    return render_template('exercises/exercise1.html',options=options,qid=number)
 
 
 @app.route('/cleanup')
