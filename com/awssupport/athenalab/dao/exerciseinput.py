@@ -47,7 +47,16 @@ def ex2():
     return ex2table
 
 def ex3():
-    return "SELECT * FROM lab_ex13 limit 10"
+    ex31table = []
+    ex31table.append(
+        {"id": "q31", "groupid": "q3", "desc": "Getting access denied error while running select query", "run": "", "result": "", "comments": "",
+         "query": "SELECT * FROM lab_ex31 limit 2", "editable": "false"})
+    ex31table.append({"id": "q32", "groupid": "q3",
+                      "desc": "Getting s3 access denied error, although I have s3 full permission",
+                      "run": "", "result": "", "comments": "", "query": "SELECT * FROM lab_ex32 limit 2",
+                      "editable": "false"})
+
+    return ex31table
 
 def ex4():
     return "SELECT * FROM lab_ex14 limit 10"

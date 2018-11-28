@@ -7,20 +7,26 @@ from botocore.errorfactory import *
 client = boto3.client('athena')
 dbname = "athenalabdb"
 
-def submitQuery(query,stage):
-    #query="""SELECT * FROM lab_exe1"""
+def submitQuery(query,stage,boto3client=None):
     print(query)
+    if boto3client is not None:
+        return execute(client, query, stage)
+    return execute(client, query, stage)
+
+
+
+def execute(client, query, stage):
     try:
         res = client.start_query_execution(QueryString=query, QueryExecutionContext={'Database': dbname},
-                                      ResultConfiguration={'OutputLocation':'s3://{}/output'.format(stage)})
+                                           ResultConfiguration={'OutputLocation': 's3://{}/output'.format(stage)})
     except ClientError as e:
-        print("Unexpected error:",e.response['Error'])
-        res={"status":"FAILED","message":e.response['Error']}
-    except :
-        print("Unexpected error:",sys.exc_info())
-        res={"status":"FAILED","message":e.response['Error']}
-
+        print("Unexpected error:", e.response['Error'])
+        res = {"status": "FAILED", "message": e.response['Error']}
+    except:
+        print("Unexpected error:", sys.exc_info())
+        res = {"status": "FAILED", "message": "unknow error"}
     return res
+
 
 def waitForQueryToComplete(queryid):
     time.sleep(1)
@@ -43,9 +49,9 @@ def waitForQueryToComplete(queryid):
     return response
 
 
-def executeQuery(query,stage):
+def executeQuery(query,stage,boto3client=None):
     """Execute the Athena query and return the result"""
-    res=submitQuery(query,stage)
+    res=submitQuery(query,stage,boto3client)
     print("resr",res)
     if('status' in res.keys() and res['status'] =='FAILED'):
         result=res

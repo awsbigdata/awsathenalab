@@ -1,5 +1,6 @@
 from com.awssupport.athenalab import athenaQueryExecutor,exerciesQuery
 
+import boto3
 
 def ex11(stage,ex_query):
     out = athenaQueryExecutor.executeQuery(ex_query,stage)
@@ -40,19 +41,50 @@ def ex15(stage,ex_query):
     else:
         return rs
 
-def ex21(stage,ex_query):
-    out = athenaQueryExecutor.executeQuery(ex_query,stage)
-    if('status' in out.keys()):
-       return out
-    return responseformat(out=out)
-
-def ex22(stage,ex_query):
+def ex2X(stage,ex_query):
     out = athenaQueryExecutor.executeQuery(ex_query,stage)
     if('status' in out.keys()):
        return out
     return responseformat(out=out)
 
 
+
+def ex31(stage,ex_query):
+    accountid=boto3.client('sts').get_caller_identity().get('Account')
+    arn='arn:aws:iam::{}:role/Athena_Exercise_lab31_Role'.format(accountid)
+    print(arn)
+    session = role_arn_to_session(
+        RoleArn=arn, RoleSessionName='lab_31'
+    )
+    client = session.client('athena')
+    out = athenaQueryExecutor.executeQuery(ex_query,stage,client)
+    return responseformat(out=out)
+
+def ex32(stage,ex_query):
+    accountid = boto3.client('sts').get_caller_identity().get('Account')
+    arn='arn:aws:iam::{}:role/Athena_Exercise_lab32_Role'.format(accountid)
+
+    session=role_arn_to_session(
+        RoleArn=arn,RoleSessionName='lab_32'
+    )
+    client = session.client('athena')
+    out = athenaQueryExecutor.executeQuery(ex_query,stage,client)
+    return responseformat(out=out)
+
+def role_arn_to_session(**args):
+    """
+    Usage :
+        session = role_arn_to_session(
+            RoleArn='arn:aws:iam::012345678901:role/example-role',
+            RoleSessionName='ExampleSessionName')
+        client = session.client('sqs')
+    """
+    client = boto3.client('sts')
+    response = client.assume_role(**args)
+    return boto3.Session(
+        aws_access_key_id=response['Credentials']['AccessKeyId'],
+        aws_secret_access_key=response['Credentials']['SecretAccessKey'],
+        aws_session_token=response['Credentials']['SessionToken'])
 
 def responseformat(out):
     if out['QueryExecution']['Status']['State'] == 'SUCCEEDED':
@@ -71,8 +103,11 @@ def query_validation(argument,stage,query):
         'q13': ex13,
         'q14': ex14,
         'q15': ex15,
-        'q21': ex21,
-        'q22': ex22,
+        'q21': ex2X,
+        'q22': ex2X,
+        'q23': ex2X,
+        'q31': ex31,
+        'q32': ex32,
 
 
     }

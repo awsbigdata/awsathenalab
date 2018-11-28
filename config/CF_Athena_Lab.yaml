@@ -325,6 +325,66 @@ Resources:
         -
           Ref: "GlueRole"
 
+  LABIAMRole1:
+    Type: "AWS::IAM::Role"
+    Properties:
+      RoleName: "Athena_Exercise_lab31_Role"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Principal:
+              AWS:
+                - !GetAtt RootRole.Arn
+            Action:
+              - "sts:AssumeRole"
+      Path: "/"
+  LABIAMPolicies1:
+    Type: "AWS::IAM::Policy"
+    Properties:
+      PolicyName: "Athena_Exercise_lab31_Policy"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Action: ["dynamodb:*","kms:*","athena:*","iam:*","s3:*","logs:*","kinesis:*"]
+            Resource: "*"
+      Roles:
+        -
+          Ref: "LABIAMRole1"
+
+  LABIAMRole2:
+    Type: "AWS::IAM::Role"
+    Properties:
+      RoleName: "Athena_Exercise_lab32_Role"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Principal:
+              AWS:
+                - !GetAtt RootRole.Arn
+            Action:
+              - "sts:AssumeRole"
+      Path: "/"
+  LABIAMPolicies2:
+    Type: "AWS::IAM::Policy"
+    Properties:
+      PolicyName: "Athena_Exercise_lab31_Policy"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Action: ["dynamodb:*","glue:*","athena:*","iam:*","s3:*","logs:*","kinesis:*"]
+            Resource: "*"
+      Roles:
+        -
+          Ref: "LABIAMRole2"
+
   RootInstanceProfile:
     Type: "AWS::IAM::InstanceProfile"
     Properties:

@@ -41,6 +41,7 @@ def home():
             dict['query'] = row.query
             dict['result'] = row.result
             dict['editable'] = row.editable
+            dict['comments'] = row.comments
             options.append(dict)
         return render_template('exercises/exercise1.html',options=options,qid='q1')
 
@@ -111,6 +112,7 @@ def do_exercise(number):
         dict['query']=row.query
         dict['result']=row.result
         dict['editable']=row.editable
+        dict['comments'] = row.comments
         options.append(dict)
 
     return render_template('exercises/exercise1.html',options=options,qid=number)

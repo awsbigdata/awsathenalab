@@ -22,7 +22,7 @@ def user_data(session):
 #ex1
 
 def exerciseData(session):
-    for q in ('q1','q2'):
+    for q in ('q1','q2','q3'):
         for i in exerciseinput.getQuery(q):
             print(i)
             exer = Exercise(i)

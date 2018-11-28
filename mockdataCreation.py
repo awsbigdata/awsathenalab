@@ -5,6 +5,8 @@ import json
 
 import time
 from com.awssupport.athenalab.mockdata.exercise1 import exercise1
+from com.awssupport.athenalab.mockdata.exercise3 import Exer3
+
 
 
 
@@ -16,6 +18,9 @@ def sample_data(s):
     ex.createdatabase()
     ex.createBucket()
     print(ex.exerciseMockData())
+    ex3=Exer3(json.loads(row.property))
+    print(ex3.exerciseMockData())
+
 
 
 
