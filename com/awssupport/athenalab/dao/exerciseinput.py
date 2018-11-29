@@ -1,6 +1,6 @@
 def ex1():
     ex11table=[]
-    ex11table.append({"id":"q11","groupid":"q1","desc":"Hive Schema mismatch error","run":"","result":"","comments":"","query":"SELECT * FROM lab_ex11 limit 2","editable":"false"})
+    ex11table.append({"id":"q11","groupid":"q1","desc":"How to solve Hive Schema mismatch error","run":"","result":"","comments":"","query":"SELECT * FROM lab_ex11 limit 2","editable":"false"})
     ex11table.append({"id":"q12","groupid":"q1","desc":"How do I resolve the RegexSerDe error \"Number of matching groups doesn't match the number of columns\" in Amazon Athena?","run":"","result":"","comments":"","query":"SELECT * FROM lab_ex12 limit 2","editable":"false"})
     ex11table.append({"id":"q13","groupid":"q1","desc":"When I query a table in Amazon Athena, the TIMESTAMP result is empty","run":"","result":"","comments":"","query":"SELECT * FROM lab_ex13 limit 2","editable":"false"})
     ex11table.append({"id":"q14","groupid":"q1","desc":"When I try to read JSON data in Amazon Athena, I receive NULL or incorrect data errors. How can I resolve this?","run":"","result":"","comments":"","query":"SELECT * FROM lab_ex14 limit 2","editable":"false"})
