@@ -15,20 +15,27 @@
 
   <div id="container">
     <div id="header" >
-        <div style="left:20px;width:200px">
+
+        <div style="float:left;width:200px">
            <a href="{{ url_for('cleandata') }}">Remove Resources</a>
         </div>
+
+<span style="line-height: 1;font-size: 50px;">
+
+            Athena LAB
+     </span>
         <!--<div class=metanav style="right:20px;width:200px">
                 <div style="left:20px;width:200px">
            <a href="{{ url_for('createData') }}">create Resources</a>
         </div>-->
   {% if not session.logged_in %}
     <a href="{{ url_for('do_admin_login') }}">log in</a>
-  {% else %}
+  {% else %}<div style="float:right;width:200px">
     <a href="{{ url_for('logout') }}">log out</a>
+        </div>
   {% endif %}
   </div>
-    </div>
+
     <div id="sidebar-left">
         <div class="sidenav">
             <a id='q1' href="/exercise/q1">1.Select Query</a>
@@ -42,7 +49,7 @@
       {% block footer %}Conditions of Use & SalePrivacy NoticeInterest-Based Ads© 1996-2018, Amazon.com, Inc. or its affiliates
       {% endblock %}
     </div>
-
+ </div>
 {% else %}
       <p>You're not logged in!</p>
       <meta http-equiv="Refresh" content="1; url=/">
