@@ -136,7 +136,7 @@ def ex43(stage, ex_query):
                     validate(out[1], '%m/%d/%Y')
                 except ValueError as e:
                     rs['status'] = 'FAILED'
-                    rs['message'] = e.message+out
+                    rs['message'] = e.message+str(out)
                     return rs
                 rs['message'] = out[1]
 
