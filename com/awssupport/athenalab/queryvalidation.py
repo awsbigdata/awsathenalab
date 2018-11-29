@@ -1,6 +1,7 @@
 from com.awssupport.athenalab import athenaQueryExecutor,exerciesQuery
 
 import boto3
+import datetime
 
 def ex11(stage,ex_query):
     out = athenaQueryExecutor.executeQuery(ex_query,stage)
@@ -71,6 +72,82 @@ def ex32(stage,ex_query):
     out = athenaQueryExecutor.executeQuery(ex_query,stage,client)
     return responseformat(out=out)
 
+
+def ex41(stage,ex_query):
+    out = athenaQueryExecutor.executeQuery(ex_query,stage)
+
+    rs = responseformat(out=out)
+    if (rs['status'] == 'SUCCEEDED'):
+        out = athenaQueryExecutor.processresultset(rs['queryid'])
+        print(out)
+        if len(out) <1:
+            rs['status'] = 'FAILED'
+            rs['message'] = 'Zero Rows returned,perhaps, relauch the cf to fix the issue'
+        else:
+            if(len(out[1].split(','))==2):
+                rs['message']=athenaQueryExecutor.tableConstruct(out)
+            else:
+                rs['status'] = 'FAILED'
+                rs['message'] =out
+        return rs
+    else:
+        return rs
+
+
+def ex42(stage,ex_query):
+    out = athenaQueryExecutor.executeQuery(ex_query,stage)
+    rs = responseformat(out=out)
+    if (rs['status'] == 'SUCCEEDED'):
+        out = athenaQueryExecutor.processresultset(rs['queryid'])
+        print(out)
+        if len(out) <1:
+            rs['status'] = 'FAILED'
+            rs['message'] = 'Zero Rows returned,perhaps, relauch the cf to fix the issue'
+        else:
+            if(len(out)>=2):
+                try:
+                    validate(out[1],'%Y-%m-%d %H:%M:%S.%f')
+                except:
+                    rs['status'] = 'FAILED'
+                    rs['message'] = out
+                    return rs
+                rs['message']=out[1]
+
+            else:
+                rs['status'] = 'FAILED'
+                rs['message'] =out
+        return rs
+    else:
+        return rs
+
+
+def ex43(stage, ex_query):
+    out = athenaQueryExecutor.executeQuery(ex_query, stage)
+    rs = responseformat(out=out)
+    if (rs['status'] == 'SUCCEEDED'):
+        out = athenaQueryExecutor.processresultset(rs['queryid'])
+        print(out)
+        if len(out) < 1:
+            rs['status'] = 'FAILED'
+            rs['message'] = 'Zero Rows returned,perhaps, relauch the cf to fix the issue'
+        else:
+            if (len(out) >= 2):
+                try:
+                    validate(out[1], '%m/%d/%Y')
+                except ValueError as e:
+                    rs['status'] = 'FAILED'
+                    rs['message'] = e.message+out
+                    return rs
+                rs['message'] = out[1]
+
+            else:
+                rs['status'] = 'FAILED'
+                rs['message'] = out
+        return rs
+    else:
+        return rs
+
+
 def role_arn_to_session(**args):
     """
     Usage :
@@ -96,6 +173,15 @@ def responseformat(out):
          "message": out['QueryExecution']['Status']['StateChangeReason'],
          "queryid": out['QueryExecution']['QueryExecutionId']}
 
+
+
+def validate(date_text,format):
+    try:
+        datetime.datetime.strptime(date_text, format)
+    except ValueError:
+        raise ValueError("Incorrect data format, should be {}".format(format))
+
+
 def query_validation(argument,stage,query):
     switcher = {
         'q11': ex11,
@@ -108,6 +194,9 @@ def query_validation(argument,stage,query):
         'q23': ex2X,
         'q31': ex31,
         'q32': ex32,
+        'q41': ex41,
+        'q42': ex42,
+        'q43': ex43
 
 
     }

@@ -59,7 +59,20 @@ def ex3():
     return ex31table
 
 def ex4():
-    return "SELECT * FROM lab_ex14 limit 10"
+    ex4table = []
+    ex4table.append(
+        {"id": "q41", "groupid": "q4", "desc": """Generate output as column a,b like below <table><tr><th>a</th><th>b</th></tr><tr><td>data1</td><td>data2</td></tr></table>""", "run": "",
+         "result": "", "comments": "",
+         "query": "select * from lab_ex41", "editable": "true"})
+    ex4table.append({"id": "q42", "groupid": "q4",
+                      "desc": "Convert below string to timestamp format as yyyy-mm-dd hh:mm:ss:sss",
+                      "run": "", "result": "", "comments": "", "query": "select * from lab_ex42",
+                      "editable": "true"})
+    ex4table.append({"id": "q43", "groupid": "q4",
+                      "desc": "Convert below string to timestamp format as mm/dd/yyyy",
+                      "run": "", "result": "", "comments": "", "query": "select * from lab_ex43",
+                      "editable": "true"})
+    return ex4table
 
 def ex5():
     return "SELECT * FROM lab_ex15 limit 10"

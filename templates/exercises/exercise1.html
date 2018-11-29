@@ -31,45 +31,6 @@ $('.close-btn2').click(function(event) {
 
 });
 
-$('.true').on('click', function(event) {
-        var rid=event.target.id
-        var that = $(this);
-        if (that.find('input').length > 0) {
-            return;
-        }
-        var currentText = that.text();
-        var wid=that.width()
-        var hig=that.height()
-        that.text('');
-        var $input = $('<input>').val(currentText)
-        .css({
-
-            top: '0px',
-            left: '0px',
-            width: wid,
-            height: hig,
-            opacity: 0.9,
-            padding: '10px'
-        });
-
-        $(this).append($input);
-
-        // Handle outside click
-        $(document).click(function(event) {
-            if(!$(event.target).closest('.true').length) {
-                if ($input.val()) {
-                    that.text($input.val());
-
-                var jsonData = JSON.stringify({"ddl":$input.val()})
-               $.ajax({url: "/updatequery/"+rid, data: jsonData,
-                 contentType: "application/json",type: 'POST', success: function(result){
-                console.log("success")
-               } });
-                that.find('input').remove();
-            }
-            }
-        });
-    });
 
 
 });
@@ -87,6 +48,53 @@ function execute(id){
 
  }});
 
+}
+
+function update(ev,id){
+ ev.preventDefault();
+ var that = $('#u'+id);
+ $('#e'+id).css("display", "none");
+ $('#s'+id).css("display", "inline-block");
+ var rid=event.target.id
+
+ if (that.find('input').length > 0) {
+            return;
+        }
+        var currentText = that.text();
+        var wid=that.width()
+        var hig=that.height()
+        that.text('');
+        var $input = $('<input>').val(currentText)
+        .css({
+
+            top: '0px',
+            left: '0px',
+            width: wid,
+            height: hig,
+            opacity: 0.9,
+            padding: '10px'
+        });
+
+        that.append($input);
+}
+/*
+ it would save the query edit
+*/
+
+
+function save(ev,id){
+ ev.preventDefault();
+ $('#e'+id).css("display", "inline-block");
+ $('#s'+id).css("display", "none");
+ var $input=$('#u'+id+' input')
+ var that = $('#u'+id);
+ that.text($input.val());
+  var jsonData = JSON.stringify({"ddl":$input.val()})
+ $.ajax({url: "/updatequery/"+id, data: jsonData,
+   contentType: "application/json",type: 'POST', success: function(result){
+  console.log("success")
+ } });
+  that.find('input').remove();
 }
 </script>
 
@@ -110,7 +118,21 @@ function execute(id){
  <tr>
         <td class="col1">{{ item.id }}</td>
         <td class="col2">{{ item.desc }}</td>
-     <td class="col3"><div id='u{{ item.id }}' class="{{ item.editable }}">{{ item.query }}</div></td>
+        <td class="col3"><div id='u{{ item.id }}' class="{{ item.editable }}">{{ item.query }}</div>
+            {% if item.editable=='true' %}
+ <div>
+  <div style='float: left;'>
+     <button id="e{{ item.id }}" onclick="update(event,'{{ item.id }}')" class="button">edit</button>
+  </div>
+  <div style='float: right;'>
+   <button id="s{{ item.id }}" style="display:none" onclick="save(event,'{{ item.id }}')" class="button">save</button>
+  </div>
+</div>
+{% endif %}
+
+
+
+        </td>
         <td class="col4"><img class="bgimg" border="0" src="{{ url_for('static', filename='Start-icon.png') }}" onclick="execute('{{ item.id }}')" /></td>
         <td class="col5">  <p id="{{ item.id }}" class="{{ item.result }}" style="height:70px; overflow: hidden; text-overflow: ellipsis;">
             {{ item.comments }}</p><span class='more' id="more{{ item.id }}">read more ...</span>

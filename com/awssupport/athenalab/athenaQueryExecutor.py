@@ -71,4 +71,25 @@ def processRows(row,columninfo):
     return ','.join(str(v['VarCharValue'])  if 'VarCharValue' in v else str('') for v in row)
 
 
+def tableConstruct(rows):
+    table = []
+    table.append("<table>")
+    i = 0
+    for row in rows:
+        cols = row.split(',')
+        table.append("<tr>")
+        if (i == 0):
+            for col in cols:
+                table.append("<th>")
+                table.append(col)
+                table.append("</th>")
+        else:
+            for col in cols:
+                table.append("<td>")
+                table.append(col)
+                table.append("</td>")
+
+        table.append("</tr>")
+    return ''.join(table)
+
 #print(processresultset('a02336c8-5f26-4709-90ab-fee4155a6d53'))
